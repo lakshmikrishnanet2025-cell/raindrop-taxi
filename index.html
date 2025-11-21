@@ -1,3 +1,10 @@
+<script>
+  // Page protection: redirect to login if user is not logged in
+  if (localStorage.getItem("loggedIn") !== "yes") {
+    window.location.href = "login.html";
+  }
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,7 +103,7 @@ button {
 <body>
 
 <header>
-    <img src="assets/logo.png">
+    <img src="assets/logo.png" alt="Raindrop Taxi Logo">
     <h1>Raindrop Taxi</h1>
 </header>
 
@@ -131,13 +138,13 @@ button {
     <div class="side-card">
 
         <h3>Driver</h3>
-        <img src="assets/driver.jpg" style="width:100%;border-radius:10px">
+        <img src="assets/driver.jpg" style="width:100%;border-radius:10px" alt="Driver">
 
         <h3>Vehicle</h3>
-        <img src="assets/car.jpg" style="width:100%;border-radius:10px">
+        <img src="assets/car.jpg" style="width:100%;border-radius:10px" alt="Car">
 
         <h3>Live Route Map</h3>
-        <div id="map"></div>
+        <div id="map" aria-label="map"></div>
 
         <h3>OTP</h3>
         <p id="otpBox">OTP will appear here</p>
@@ -146,6 +153,7 @@ button {
 </div>
 
 <script>
+/* Initialize Leaflet map */
 let map = L.map('map').setView([11.75, 79.76], 10);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19
@@ -153,71 +161,89 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 let routingControl;
 
-// Show route inside the map
+/* Show route inside the map using OSM Nominatim + Leaflet Routing Machine */
 function showRoute() {
-    let p = document.getElementById("pickup").value;
-    let d = document.getElementById("drop").value;
+    let p = document.getElementById("pickup").value.trim();
+    let d = document.getElementById("drop").value.trim();
 
     if (!p || !d) {
         alert("Enter pickup & drop!");
         return;
     }
 
-    // Geocode using free API (no key)
-    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${p}`)
-    .then(r => r.json())
-    .then(start => {
-        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${d}`)
-        .then(r => r.json())
-        .then(end => {
+    // Simple geocode via Nominatim (no API key)
+    Promise.all([
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(p)}`).then(r => r.json()),
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(d)}`).then(r => r.json())
+    ]).then(([start, end]) => {
+        if (!start.length || !end.length) {
+            alert('Could not find one of the locations. Try a different query (city, landmark or full address).');
+            return;
+        }
 
-            let pCoords = [start[0].lat, start[0].lon];
-            let dCoords = [end[0].lat, end[0].lon];
+        const pCoords = [parseFloat(start[0].lat), parseFloat(start[0].lon)];
+        const dCoords = [parseFloat(end[0].lat), parseFloat(end[0].lon)];
 
-            if (routingControl) map.removeControl(routingControl);
+        if (routingControl) {
+            map.removeControl(routingControl);
+        }
 
-            routingControl = L.Routing.control({
-                waypoints: [
-                    L.latLng(pCoords),
-                    L.latLng(dCoords)
-                ],
-                routeWhileDragging: false
-            }).addTo(map);
+        routingControl = L.Routing.control({
+            waypoints: [
+                L.latLng(pCoords[0], pCoords[1]),
+                L.latLng(dCoords[0], dCoords[1])
+            ],
+            routeWhileDragging: false,
+            show: false,
+            addWaypoints: false
+        }).addTo(map);
 
+        // Fit map bounds to route when ready
+        routingControl.on('routesfound', function(e) {
+            const route = e.routes[0];
+            const bounds = route.bounds;
+            map.fitBounds(bounds, { padding: [40, 40] });
         });
+    }).catch(err => {
+        console.error(err);
+        alert('Failed to calculate route. Try again.');
     });
 }
 
-// WhatsApp booking
+/* WhatsApp booking (pre-filled message) */
 function bookWhatsApp() {
-    let p = pickup.value;
-    let d = drop.value;
-    let t = datetime.value;
-    let v = vehicle.value;
+    const p = document.getElementById('pickup').value.trim();
+    const d = document.getElementById('drop').value.trim();
+    const t = document.getElementById('datetime').value;
+    const v = document.getElementById('vehicle').value;
 
     if (!p || !d) {
-        alert("Enter pickup & drop!");
+        alert('Please enter pickup & drop address!');
         return;
     }
 
-    let otp = Math.floor(1000 + Math.random() * 9000);
-    document.getElementById("otpBox").innerText = "Ride OTP: " + otp;
+    const otp = Math.floor(1000 + Math.random() * 9000);
+    document.getElementById('otpBox').innerText = 'Ride OTP: ' + otp;
 
-    let msg =
-`*Raindrop Taxi Booking*%0A
-Pickup: ${p}%0A
-Drop: ${d}%0A
-Time: ${t}%0A
-Vehicle: ${v}%0A
-OTP: ${otp}`;
+    const message = [
+        '*Raindrop Taxi Booking*',
+        'Pickup: ' + p,
+        'Drop: ' + d,
+        'Time: ' + (t || 'ASAP'),
+        'Vehicle: ' + v,
+        'OTP: ' + otp
+    ].join('%0A');
 
-    window.open(`https://wa.me/919486576643?text=${msg}`, "_blank");
+    // WhatsApp number (without + or spaces). Country code 91 is used.
+    const phone = '919486576643';
+    window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
 }
 
-// UPI Payment
+/* UPI payment deep link */
 function payUPI() {
-    let upi = "prasanthvjm890-1@okhdfcbank";
-    window.location.href = `upi://pay?pa=${upi}&pn=RaindropTaxi&cu=INR`;
+    const upi = 'prasanthvjm890-1@okhdfcbank';
+    // Using UPI URI scheme; on desktop this may not do anything, on mobile it opens the UPI app.
+    window.location.href = `upi://pay?pa=${encodeURIComponent(upi)}&pn=${encodeURIComponent('Raindrop Taxi')}&cu=INR`;
 }
 </script>
 
