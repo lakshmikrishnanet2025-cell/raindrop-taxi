@@ -75,7 +75,7 @@
 
     async function uploadImage(inputEl, which){
       const token = qs('#token').value.trim();
-      if(!token){ alert('Provide admin token'); return; }
+      if(!token){ alert('prasanthraindrop@2002'); return; }
       const file = inputEl.files[0]; if(!file) return alert('No file selected');
       const fd = new FormData(); fd.append('image', file);
       const res = await fetch('/api/upload', {method:'POST', headers:{'x-admin-token': token}, body: fd});
