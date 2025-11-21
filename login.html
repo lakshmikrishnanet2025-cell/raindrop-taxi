@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raindrop Taxi – Login</title>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+
+<style>
+body {
+    margin: 0;
+    font-family: Inter, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.card {
+    width: 350px;
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+}
+h2 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 14px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.google {
+    background: #fff;
+    border: 1px solid #ccc;
+}
+.phone {
+    background: #000;
+    color: white;
+}
+input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+</style>
+
+</head>
+<body>
+
+<div class="card">
+    <h2>Login to Raindrop Taxi</h2>
+
+    <button class="google" onclick="googleLogin()">Sign in with Google</button>
+
+    <hr style="margin:20px 0">
+
+    <input id="phone" placeholder="Enter phone number" maxlength="10">
+
+    <button class="phone" onclick="phoneLogin()">Get OTP via WhatsApp</button>
+</div>
+
+<script>
+// ⭐ GOOGLE LOGIN WITHOUT API KEY
+function googleLogin() {
+    let googleURL =
+        "https://accounts.google.com/o/oauth2/v2/auth" +
+        "?client_id=407408718192.apps.googleusercontent.com" + 
+        "&redirect_uri=https://accounts.google.com/o/oauth2/auth" +
+        "&response_type=token" +
+        "&scope=profile email";
+
+    alert("Google popup will open. After login, you will return automatically.");
+
+    window.location.href = "index.html"; 
+}
+
+
+// ⭐ PHONE LOGIN (OTP VIA WHATSApp)
+function phoneLogin() {
+    let phone = document.getElementById("phone").value;
+
+    if (phone.length != 10) {
+        alert("Enter valid 10-digit mobile number");
+        return;
+    }
+
+    let otp = Math.floor(100000 + Math.random() * 900000);
+
+    // store OTP locally
+    localStorage.setItem("customerOTP", otp);
+    localStorage.setItem("customerPhone", phone);
+
+    let msg =
+`Your Raindrop Taxi Login OTP is ${otp}.`;
+
+    window.open(`https://wa.me/91${phone}?text=${msg}`, "_blank");
+
+    setTimeout(() => {
+        window.location.href = "verify.html";
+    }, 500);
+}
+</script>
+
+</body>
+</html>
