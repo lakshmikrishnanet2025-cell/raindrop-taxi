@@ -18,8 +18,12 @@ body{
     padding:25px;
     width:350px;
     border-radius:16px;
-    box-shadow:0 4px 14px rgba(0,0,0,0.1);
+    box-shadow:0 4px 14px rgba(0,0,0,0.15);
     text-align:center;
+}
+.logo {
+    width:80px;
+    margin-bottom:15px;
 }
 input{
     width:100%;
@@ -45,23 +49,25 @@ button{
 <body>
 
 <div class="card">
+    <img src="assets/logo.png" class="logo">
     <h2>Enter OTP</h2>
-    <input id="otp" placeholder="Enter received OTP" maxlength="6">
+
+    <input id="otp" placeholder="Enter OTP" maxlength="6">
 
     <button onclick="verify()">Verify & Login</button>
 </div>
 
 <script>
 function verify() {
-    let entered = otp.value;
+    let entered = otp.value.trim();
     let real = localStorage.getItem("customerOTP");
 
-    if(entered == real){
+    if(entered === real){
         alert("Login successful!");
         localStorage.setItem("loggedIn", "yes");
         window.location.href = "index.html";
     } else {
-        alert("Incorrect OTP!");
+        alert("Wrong OTP!");
     }
 }
 </script>
