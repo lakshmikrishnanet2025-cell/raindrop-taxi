@@ -1,123 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Raindrop Taxi</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raindrop Taxi - Book Your Ride</title>
+
+    <!-- Uber Style Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: Arial, sans-serif;
-            background: #eef1f6;
-            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: #f2f2f2;
         }
 
+        /* Uber Style Header */
         header {
-            background: linear-gradient(to right, #0053b3, #0084ff);
+            background: #000;
             color: white;
-            padding: 20px;
-            font-size: 28px;
-            font-weight: bold;
+            padding: 15px 25px;
             display: flex;
             align-items: center;
             gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-
         header img {
-            width: 50px;
-            border-radius: 8px;
+            width: 45px;
+        }
+        header h1 {
+            font-size: 22px;
+            font-weight: 700;
         }
 
+        /* Layout */
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: auto;
             display: flex;
-            gap: 20px;
-            padding: 20px;
+            gap: 25px;
+            padding: 25px;
         }
 
+        /* Booking Card (Uber Style) */
         .card {
             background: white;
             padding: 25px;
-            border-radius: 12px;
+            border-radius: 14px;
             flex: 1;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+        }
+        .card h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 700;
         }
 
+        label {
+            display: block;
+            font-size: 14px;
+            margin-top: 12px;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
         input, select {
             width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 6px;
+            padding: 14px;
+            border-radius: 10px;
             border: 1px solid #ccc;
-        }
-
-        button {
-            padding: 12px 15px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
             font-size: 15px;
-            margin-right: 6px;
-            margin-top: 10px;
         }
 
-        .btn-map { background: #005cc8; color: white; }
+        /* Uber Style Buttons */
+        button {
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 16px;
+            border: none;
+            margin-top: 15px;
+            width: 100%;
+            cursor: pointer;
+            font-weight: 600;
+        }
         .btn-wa { background: #25D366; color: white; }
-        .btn-upi { background: #7f4cff; color: white; }
+        .btn-map { background: #000; color: white; }
+        .btn-upi { background: #8a5bff; color: white; }
+
+        /* Right Section */
+        .side-card {
+            width: 400px;
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+        }
+        .side-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
 
         iframe {
             width: 100%;
-            height: 180px;
+            height: 220px;
             border: 0;
-            border-radius: 8px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        /* Raindrop Animation */
+        .rain {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+            background-image: url('https://i.imgur.com/qKxJbS2.png');
+            animation: rainAnim 0.4s linear infinite;
+            opacity: 0.25;
+        }
+        @keyframes rainAnim {
+            from { background-position: 0 0; }
+            to   { background-position: 0 50px; }
+        }
+
+        @media (max-width: 900px) {
+            .container { flex-direction: column; }
+            .side-card { width: 100%; }
         }
     </style>
 </head>
-
 <body>
 
+<div class="rain"></div>
+
 <header>
-    <img src="assets/logo.png" alt="Logo">
-    Raindrop Taxi
+    <img src="assets/logo.png">
+    <h1>Raindrop Taxi</h1>
 </header>
 
 <div class="container">
-    
-    <!-- LEFT CARD -->
+
+    <!-- LEFT -->
     <div class="card">
-        <h2>Book a Ride</h2>
+        <h2>Book Your Ride</h2>
 
-        <label>Pickup address</label>
-        <input id="pickup" placeholder="Enter pickup location">
+        <label>Pickup location</label>
+        <input id="pickup" placeholder="Enter pickup">
 
-        <label>Drop address</label>
-        <input id="drop" placeholder="Enter drop location">
+        <label>Drop location</label>
+        <input id="drop" placeholder="Enter drop">
 
         <label>Pickup date & time</label>
         <input type="datetime-local" id="datetime">
 
-        <label>Vehicle</label>
+        <label>Vehicle type</label>
         <select id="vehicle">
             <option>Sedan</option>
             <option>SUV</option>
             <option>Mini</option>
         </select>
 
-        <!-- YOU ASKED → Removed Estimate Fare Section -->
-
-        <button class="btn-map" onclick="openMap()">Show on Map</button>
-        <button class="btn-wa" onclick="bookWhatsApp()">Book Now (WhatsApp)</button>
+        <button class="btn-map" onclick="openMap()">Show on map</button>
+        <button class="btn-wa" onclick="bookWhatsApp()">Book Now on WhatsApp</button>
         <button class="btn-upi" onclick="payUPI()">Pay via UPI</button>
     </div>
 
-    <!-- RIGHT CARD -->
-    <div class="card">
-        <h3>Vehicle & Driver</h3>
-        <img src="assets/car.jpg" style="width:100%; border-radius:10px;">
+    <!-- RIGHT -->
+    <div class="side-card">
+        <h3>Vehicle</h3>
+        <img src="assets/car.jpg">
 
         <h3>Driver</h3>
-        <img src="assets/driver.jpg" style="width:100%; border-radius:10px;">
+        <img src="assets/driver.jpg">
+
+        <h3>Live Map</h3>
+        <iframe id="liveMap"
+         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31500.9128!2d79.76!3d11.75!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTHCsDQ1JzAwLjAiTiA3OcKwNDYnMzIuMCJF!5e0!3m2!1sen!2sin!4v161518">
+        </iframe>
 
         <h3>UPI Payment</h3>
         <p><b>UPI ID:</b> prasanthvjm890-1@okhdfcbank</p>
@@ -131,11 +194,12 @@ function openMap() {
     let d = document.getElementById("drop").value;
 
     if (!p || !d) {
-        alert("Enter pickup & drop addresses!");
+        alert("Enter pickup & drop locations!");
         return;
     }
 
-    window.open(`https://www.google.com/maps/dir/${p}/${d}`, "_blank");
+    let mapURL = `https://www.google.com/maps/dir/${p}/${d}`;
+    window.open(mapURL, "_blank");
 }
 
 function bookWhatsApp() {
@@ -149,16 +213,14 @@ function bookWhatsApp() {
         return;
     }
 
-    let msg =
-`Raindrop Taxi Booking:%0A
-📍 Pickup: ${p}%0A
-📍 Drop: ${d}%0A
-🕑 Time: ${t}%0A
-🚗 Vehicle: ${v}%0A`;
+    let msg = 
+`*Raindrop Taxi Booking*%0A
+📍 *Pickup:* ${p}%0A
+📍 *Drop:* ${d}%0A
+🕑 *Pickup Time:* ${t}%0A
+🚗 *Vehicle:* ${v}`;
 
-    let phone = "9486576643";
-
-    window.open(`https://wa.me/91${phone}?text=${msg}`, "_blank");
+    window.open(`https://wa.me/919486576643?text=${msg}`, "_blank");
 }
 
 function payUPI() {
