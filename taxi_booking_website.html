@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Raindrop Taxi Taxi — Taxi Booking<\/title>
+  <style>
+    :root{--accent:#0b76ef;--bg:#f6f8fb;--card:#ffffff;--muted:#6b7280}
+    *{box-sizing:border-box}
+    body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; background:var(--bg); color:#111}
+    header{background:linear-gradient(90deg,#08306b 0%, #0b76ef 100%); color:#fff; padding:28px 20px}
+    .container{max-width:1100px; margin:24px auto; padding:0 18px}
+    h1{margin:0; font-size:22px}
+    .grid{display:grid; gap:18px; grid-template-columns:1fr 420px}
+    .card{background:var(--card); border-radius:12px; padding:18px; box-shadow:0 6px 18px rgba(12,34,60,.06)}
+    label{display:block; font-size:13px; color:var(--muted); margin-bottom:8px}
+    input[type=text], input[type=datetime-local], select{width:100%; padding:10px 12px; border-radius:8px; border:1px solid #e6e9ef}
+    .row{display:flex; gap:10px}
+    .row .col{flex:1}
+    .actions{display:flex; gap:10px; margin-top:12px}
+    button{background:var(--accent); color:#fff; border:none; padding:10px 14px; border-radius:10px; cursor:pointer}
+    button.secondary{background:#fff; color:var(--accent); border:1px solid #e4eefc}
+    small{color:var(--muted)}
+
+    /* Map & preview */
+    .map-wrap{height:320px; border-radius:8px; overflow:hidden}
+    iframe{width:100%; height:100%; border:0}
+
+    /* Payment modal */
+    .modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(2,6,23,.45)}
+    .modal.show{display:flex}
+    .modal-card{width:340px; background:var(--card); padding:18px; border-radius:12px}
+    .copy{background:#f3f6fb; padding:8px 10px; border-radius:8px; display:flex; justify-content:space-between; align-items:center}
+
+    footer{margin-top:28px; text-align:center; color:var(--muted); font-size:13px}
+
+    /* Responsive */
+    @media (max-width:980px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header>\n    <div class="container" style="disRaindrop Taxix;align-items:center;gap:16px">\n      <img src="/mnt/data/893ac5ec-bcf0-4cbf-87b2-ba518395e2f5.jpg" alt="Raindrop Taxi logo" style="height:56px;border-radius:8px;background:#fff;padding:6px;box-shadow:0 4px 14px rgba(11,118,239,.12)"/>\n      <div>\n        <h1 style="margin:0">Raindrop Taxi — Book your taxi</h1>\n        <p style="margin-top:8px; color:rgba(255,255,255,.9)">Enter pickup &amp; drop, check map, estimate fare, pay via UPI, or send details to the driver on WhatsApp.</p>\n      </div>\n    </div>\n  </header>
+
+  <main class="container">
+    <div class="grid">
+      <section class="card">
+        <h2 style="margin-top:0">Book a Ride</h2>
+        <form id="bookingForm" autocomplete="off">
+          <div style="margin-bottom:12px">
+            <label for="pickup">Pickup address</label>
+            <input id="pickup" type="text" placeholder="Write pickup location manually" required />
+          </div>
+
+          <div style="margin-bottom:12px">
+            <label for="drop">Drop address</label>
+            <input id="drop" type="text" placeholder="Write drop location manually" required />
+          </div>
+
+          <div class="row" style="margin-bottom:12px">
+            <div class="col">
+              <label for="when">Pickup date & time</label>
+              <input id="when" type="datetime-local" />
+            </div>
+            <div class="col">
+              <label for="type">Vehicle</label>
+              <select id="type">
+                <option value="sedan">Sedan</option>
+                <option value="suv">SUV</option>
+                <option value="auto">Auto (3-wheeler)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:12px; align-items:center; margin-bottom:8px">
+            <label style="margin:0"><input id="round" type="checkbox" /> Return trip</label>
+            <small>Estimated fare shown below (basic)</small>
+          </div>
+
+          <div style="margin-bottom:10px">
+            <label>Estimated fare</label>
+            <div class="copy" id="farePreview">₹ -- <small id="distLabel"></small></div>
+          </div>
+
+          <div class="actions">
+            <button type="button" id="previewMap">Show on map</button>
+            <button type="button" id="estimateFare" class="secondary">Estimate fare</button>
+            <button type="button" id="bookWhatsApp">Book now (WhatsApp)</button>
+            <button type="button" id="openPay">Pay via UPI</button>
+          </div>
+        </form>
+
+        <hr style="margin:16px 0; border:none; border-top:1px solid #eef2f6" />
+        <h3 style="margin:6px 0">Recent bookings</h3>
+        <div id="history"></div>
+      </section>
+
+      <aside class="card">\n        <h3 style="margin-top:0">Vehicle & Driver</h3>\n        <div style="border-radius:8px;overflow:hidden;margin-bottom:12px">\n          <img src="/mnt/data/dba285f5-1185-4494-9744-2fe5a871f13d.jpg" alt="Raindrop Taxi car" style="width:100%;height:200px;object-fit:cover;display:block"/>\n        </div>\n\n        <div style="display:flex;gap:12px;align-items:center">\n          <img src="/mnt/data/f22a0b50-9515-411b-8f88-5083244ff8fc.jpg" alt="Driver" style="width:84px;height:84px;object-fit:cover;bordeprasanthvjm890-1@okhdfcbankrder:2px solid #eef6ff"/>\n          <div>\n            <strong>Driver: Prasanth</strong><br/><small>Contact: +91 9486576643</small>\n          </div>\n        </div>\n\n        <div style="margin-top:12px">\n          <label>Map view</label>\n          <div class="map-wrap" style="margin-top:8px;height:180px;border-radius:8px;overflow:hidden">\n            <iframe id="mapFrame" src="https://www.google.com/maps?q=India&output=embed" loading="lazy"></iframe>\n          </div>\n        </div>\n\n        <div style="margin-top:12px">\n          <label>Payment</label>\n          <div class="copy">UPI: <span id="vpa">prasanthvjm890-1@okhdfcbank</span> <button id="copyVpa" style="border:none;background:transparent;cursor:pointer">Copy</button></div>\n          <small>Note: This is your merchant VPA; payments will open the user's UPI app on mobile.</small>\n        </div>\n      </aside>
+    </div>
+
+    <!-- Payment modal -->
+    <div id="payModal" class="modal" aria-hidden="true">
+      <div class="modal-card">
+        <h4>Pay via UPI</h4>
+        <p style="margin-top:6px">Enter amount you want to pay and click <em>Proceed to Pay</em>. On phones this will open your UPI app if available.</p>
+        <div style="margin:12px 0">
+          <label>Amount (INR)</label>
+          <input id="payAmount" type="text" inputmode="decimal" placeholder="e.g. 250" />
+        </div>
+        <div style="margin-bottom:10px">
+          <label>UPI ID</label>
+          <div class="copy"><span id="modalVpa">prasanthvjm890-1@okhdfcbank</span><button id="copyModalVpa" style="border:none;background:transparent;cursor:pointer">Copy</button></div>
+        </div>
+        <div style="display:flex; gap:8px; justify-content:flex-end">
+          <button id="closePay" class="secondary">Close</button>
+          <button id="doPay">Proceed to Pay</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <small>Demo taxi booking interface — replace merchant UPI and driver phone if you want to go live.</small>
+    </footer>
+  </main>
+
+  <script>
+    // --- Utilities
+    const qs = sel => document.querySelector(sel);
+    const phone = '919486576643'; // driver number with country code (91)
+
+    // Persist / history
+    const HISTORY_KEY = 'swiftcab_history_v1';
+    function saveToHistory(b){
+      const arr = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+      arr.unshift(b);
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(arr.slice(0,8)));
+      renderHistory();
+    }
+    function renderHistory(){
+      const el = qs('#history'); el.innerHTML='';
+      const arr = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+      if(!arr.length) return el.innerHTML = '<small>No recent bookings</small>';
+      arr.forEach((b)=>{
+        const div=document.createElement('div'); div.style.padding='8px 0'; div.style.borderBottom='1px dashed #eef2f6';
+        div.innerHTML = `<strong>${b.pickup}</strong> → ${b.drop}<br/><small>${b.when||'ASAP'} • ${b.type} • ₹${b.fare||'--'}</small>`;
+        el.appendChild(div);
+      });
+    }
+    renderHistory();
+
+    // --- Fare estimate (VERY simple) based on char length + vehicle type
+    function estimateFare(pickup, drop, type, round){
+      if(!pickup||!drop) return null;
+      // primitive distance estimate: number of characters difference / 3 = km
+      const baseKm = Math.max(1, Math.abs(pickup.length - drop.length) / 3 + (pickup.length + drop.length)/80);
+      const km = Math.round(baseKm*10)/10;
+      let perKm = type==='suv'?18: type==='auto'?9:12;
+      let fare = Math.max(60, Math.round((km * perKm) + 30));
+      if(round) fare = fare*1.9; // return trip multiplier
+      return {fare, km};
+    }
+
+    // --- Map preview
+    qs('#previewMap').addEventListener('click', ()=>{
+      const pickup = qs('#pickup').value.trim();
+      const drop = qs('#drop').value.trim();
+      if(!pickup || !drop){ alert('Please enter both pickup and drop addresses.'); return; }
+      const q = encodeURIComponent(pickup + ' to ' + drop);
+      const src = `https://www.google.com/maps?q=${q}&output=embed`;
+      qs('#mapFrame').src = src;
+    });
+
+    // Estimate button
+    qs('#estimateFare').addEventListener('click', ()=>{
+      const pickup = qs('#pickup').value.trim();
+      const drop = qs('#drop').value.trim();
+      const type = qs('#type').value; const round = qs('#round').checked;
+      const res = estimateFare(pickup, drop, type, round);
+      if(!res){ alert('Enter pickup and drop to estimate fare.'); return; }
+      qs('#farePreview').textContent = '₹ ' + res.fare;
+      qs('#distLabel').textContent = ` • est ${res.km} km`;
+    });
+
+    // Book via WhatsApp (pre-filled message)
+    qs('#bookWhatsApp').addEventListener('click', ()=>{
+      const pickup = qs('#pickup').value.trim();
+      const drop = qs('#drop').value.trim();
+      if(!pickup || !drop){ alert('Please enter both pickup and drop addresses.'); return; }
+      const when = qs('#when').value || 'ASAP';
+      const type = qs('#type').value;
+      const priceObj = estimateFare(pickup, drop, type, qs('#round').checked);
+      const fare = priceObj? priceObj.fare : '--';
+      // message
+      const message = `New%20booking%0A*Pickup:*%20${encodeURIComponent(pickup)}%0A*Drop:*%20${encodeURIComponent(drop)}%0A*When:*%20${encodeURIComponent(when)}%0A*Vehicle:*%20${encodeURIComponent(type)}%0A*Fare%20(approx):*%20₹${fare}`;
+      // wa.me link
+      const url = `https://wa.me/${phone}?text=${message}`;
+      // save to history
+      saveToHistory({pickup, drop, when, type, fare});
+      window.open(url, '_blank');
+    });
+
+    // Payment modal
+    const payModal = qs('#payModal');
+    qs('#openPay').addEventListener('click', ()=> payModal.classList.add('show'));
+    qs('#closePay').addEventListener('click', ()=> payModal.classList.remove('show'));
+
+    function copyText(t){ navigator.clipboard?.writeText(t).then(()=>alert('Copied to clipboard')) }
+    qs('#copyVpa').addEventListener('click', ()=> copyText(qs('#vpa').textContent));
+    qs('#copyModalVpa').addEventListener('click', ()=> copyText(qs('#modalVpa').textContent));
+
+    qs('#doPay').addEventListener('click', ()=>{
+      const amt = qs('#payAmount').value.trim();
+      if(!amt || isNaN(Number(amt))){ alert('Enter a valid amount'); return; }
+      const upi = qs('#modalVpa').textContent.trim();
+      // UPI deep link
+      const params = new URLSearchParams({pa: upi, pn: 'Raindrop Taxi', am: amt, cu: 'INR', tn: 'Taxi payment'});
+      const upiLink = `upi://pay?${params.toString()}`;
+      // Try to open the link — on phone this will open UPI app. As fallback, show the UPI string to copy.
+      window.location.href = upiLink;
+      // also save a small record
+      saveToHistory({pickup: qs('#pickup').value.trim()||'--', drop: qs('#drop').value.trim()||'--', when: qs('#when').value||'UPI-'+amt, type: qs('#type').value, fare: amt});
+      payModal.classList.remove('show');
+    });
+
+    // initial vpa copy helper
+    qs('#vpa').addEventListener('click', ()=> copyText(qs('#vpa').textContent));
+
+    // Auto geolocation suggestion for convenience (optional)
+    (function tryGeo(){
+      if(!navigator.geolocation) return;
+      navigator.geolocation.getCurrentPosition((pos)=>{
+        // set map to current coords
+        const lat = pos.coords.latitude; const lon = pos.coords.longitude;
+        qs('#mapFrame').src = `https://www.google.com/maps?q=${lat},${lon}&z=15&output=embed`;
+      }, ()=>{});
+    })();
+
+  </script>
+</body>
+</html>
