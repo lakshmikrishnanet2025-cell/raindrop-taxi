@@ -1,0 +1,10 @@
+{
+  "brand": "Raindrop Taxi",
+  "driver_name": "Prasanth",
+  "driver_phone": "+91 9486576643",
+  "upi": "prasanthvjm890-1@okhdfcbank",
+  "logo": "assets/logo.jpg",
+  "car_image": "assets/car.jpg",
+  "driver_image": "assets/driver.jpg",
+  "description": "Enter pickup & drop, check map, estimate fare, pay via UPI, or send details to the driver on WhatsApp."
+}
