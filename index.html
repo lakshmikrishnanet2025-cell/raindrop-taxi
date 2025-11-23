@@ -132,18 +132,19 @@ button {
         <label>Drop Location / Temple</label>
         <input id="drop" placeholder="Ex: Tiruvannamalai Temple">
 
-        <label>Distance (KM)</label>
-        <input id="distance" type="number" min="1" placeholder="Ex: 100" oninput="calcFare()">
-
         <label>Vehicle Type</label>
-        <select id="vehicle" onchange="calcFare()">
+        <select id="vehicle">
             <option value="sedan">Sedan</option>
             <option value="suv">SUV</option>
         </select>
 
-        <label>Estimated Fare</label>
-        <input id="fare" readonly style="background:#eee;font-weight:600">
+        <label>Total Distance (KM)</label>
+        <input id="distance" readonly placeholder="Auto Calculated" style="background:#eee;font-weight:600">
 
+        <label>Estimated Fare</label>
+        <input id="fare" readonly placeholder="Auto Calculated" style="background:#eee;font-weight:600">
+
+        <button class="btn-whatsapp" onclick="calcFare()">Calculate Distance & Fare</button>
         <button class="btn-whatsapp" onclick="bookWhatsApp()">Book Ride (WhatsApp)</button>
         <button class="btn-call" onclick="callDriver()">Call Driver</button>
         <button class="btn-upi" onclick="payUPI()">Pay via UPI</button>
@@ -161,17 +162,21 @@ button {
 </div>
 
 <script>
-// Convert address to coordinates (FREE)
+/*===========================
+   1. FREE GEO LOCATION API
+===========================*/
 async function geo(address){
-    let url = `https://nominatim.openstreetmap.org/search?format=json&q=${address}`;
+    let url=`https://nominatim.openstreetmap.org/search?format=json&q=${address}`;
     let res = await fetch(url);
     let data = await res.json();
     return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
 }
 
-// Haversine distance
+/*===========================
+  2. Haversine Distance Formula
+===========================*/
 function haversine(lat1, lon1, lat2, lon2){
-    const R = 6371;
+    const R = 6371; // Earth radius
     let dLat = (lat2-lat1)*Math.PI/180;
     let dLon = (lon2-lon1)*Math.PI/180;
     let a =
@@ -179,56 +184,69 @@ function haversine(lat1, lon1, lat2, lon2){
         Math.cos(lat1*Math.PI/180) *
         Math.cos(lat2*Math.PI/180) *
         Math.sin(dLon/2)**2;
-    return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+    return R*(2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a)));
 }
 
-// MAIN AUTO CALC
+/*===========================
+  3. AUTO DISTANCE + FARE
+===========================*/
 async function calcFare(){
     let p = pickup.value;
     let d = drop.value;
 
     if(!p || !d){
-        alert("Enter pickup and drop");
+        alert("Enter pickup and drop location");
         return;
     }
 
     let start = await geo(p);
     let end = await geo(d);
 
-    // get earth distance + road factor
-    let km = haversine(start[0], start[1], end[0], end[1]) * 1.25;
+    // Straight line distance
+    let km = haversine(start[0], start[1], end[0], end[1]);
+
+    // Road variation factor 30% (Tamil Nadu reality)
+    km = km * 1.35;
 
     distance.value = km.toFixed(1);
 
     let type = vehicle.value;
+    let rate = type==="sedan" ? 14 : 19;
     let bata = 300;
-    let rate = (type === "sedan") ? 14 : 19;
-    let total = km * rate + bata;
 
+    let total = km*rate + bata;
     fare.value = "₹ " + Math.round(total);
 }
 
-/* WhatsApp Booking */
+/*===========================
+   BOOKING
+===========================*/
 function bookWhatsApp(){
     let msg =
 `*Raindrop Taxi Booking*
 Pickup: ${pickup.value}
 Drop: ${drop.value}
-Distance: ${distance.value} KM
 Vehicle: ${vehicle.value}
-Estimated Fare: ${fare.value}`;
+Distance: ${distance.value} KM
+Fare: ${fare.value}`;
 
     window.open(`https://wa.me/919486576643?text=${encodeURIComponent(msg)}`);
 }
 
-/* Call */
+/*===========================
+  CALL DRIVER
+===========================*/
 function callDriver(){
-    window.location.href = "tel:+919486576643";
+    window.location.href="tel:+919486576643";
 }
 
-/* UPI Payment */
+/*===========================
+   UPI PAYMENT
+===========================*/
 function payUPI(){
-    let upi = "prasanthvjm890-1@okhdfcbank";
-    window.location.href = `upi://pay?pa=${upi}&pn=RaindropTaxi&cu=INR`;
+    window.location.href=`upi://pay?pa=prasanthvjm890-1@okhdfcbank&pn=RaindropTaxi&cu=INR`;
 }
 </script>
+
+</body>
+</html>
