@@ -1,226 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Raindrop Taxi – Temple Tours</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Raindrop Taxi – Temple Tours & Cab</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-<style>
-body {
-    margin: 0;
-    font-family: Inter, sans-serif;
-    background: #f8f8f8;
-}
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: #f8f8f8;
+        }
 
-/* HEADER IMAGE GRID */
-.header-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    height: 180px;
-}
-.header-grid img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+        /* HERO SECTION */
+        .hero {
+            height: 420px;
+            background-image: url("assets/temples/header.jpg");
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
 
-/* MAIN LAYOUT */
-.container {
-    max-width: 900px;
-    margin: auto;
-    padding: 20px;
-}
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            height: 100%; width: 100%;
+            background: rgba(0,0,0,0.45);
+        }
 
-.logo {
-    width: 130px;
-    display: block;
-    margin: 15px auto;
-}
+        .hero-content {
+            position: absolute;
+            bottom: 40px;
+            width: 100%;
+            text-align: center;
+        }
 
-.card {
-    background: white;
-    padding: 22px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    margin-top: 20px;
-}
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
 
-label {
-    font-weight: 600;
-    margin-top: 12px;
-    display: block;
-}
+        .btn {
+            padding: 14px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            font-size: 17px;
+        }
 
-input, select {
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    font-size: 15px;
-}
+        .btn-call {
+            background: #e60000;
+            color: white;
+        }
 
-/* BUTTONS */
-button {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 10px;
-    margin-top: 12px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: 600;
-}
+        .btn-book {
+            background: white;
+            color: black;
+        }
 
-.btn-whatsapp {
-    background: #25D366;
-    color: white;
-}
-.btn-call {
-    background: #ff4d4d;
-    color: white;
-}
-.btn-upi {
-    background: #6f00ff;
-    color: white;
-}
 
-/* TEMPLE GRID */
-.grid-special {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px,1fr));
-    gap: 10px;
-    margin-top: 20px;
-}
-.grid-special div {
-    background: white;
-    text-align: center;
-    border-radius: 10px;
-    padding-bottom: 8px;
-}
-.grid-special img {
-    width: 100%;
-    height: 100px;
-    object-fit: cover;
-}
-</style>
+        /* BOOKING CARD */
+        .booking-card {
+            max-width: 900px;
+            margin: -80px auto 25px auto;
+            background: white;
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 25px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .tabs input {margin-right: 6px;}
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-top: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 13px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+
+        .btn-submit {
+            margin-top: 18px;
+            background: #5ba607;
+            color: white;
+            font-size: 16px;
+        }
+
+    </style>
 </head>
 <body>
 
-<!-- HEADER SLICE -->
-<div class="header-grid">
-    <img src="assets/temples/madurai.jpg">
-    <img src="assets/temples/rameswaram.jpg">
-    <img src="assets/temples/thanjavur.jpg">
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+        <h1 style="color:white;font-size:34px;">Raindrop Taxi</h1>
+        <p style="color:white;font-size:16px;">Tamil Nadu Temple Tours & Cab Service</p>
+
+        <div class="hero-buttons">
+            <button class="btn btn-call" onclick="callDriver()">CALL NOW</button>
+            <button class="btn btn-book" onclick="scrollToBooking()">BOOK NOW</button>
+        </div>
+    </div>
 </div>
 
-<div class="container">
+<!-- BOOKING CARD -->
+<div class="booking-card" id="bookRide">
+    <h2>Book Your Ride</h2>
 
-    <img src="assets/logo.png" class="logo">
-    <h1 style="text-align:center;">Raindrop Taxi</h1>
-    <p style="text-align:center;">Tamil Nadu Temple • Tourism • Local & Outstation</p>
-
-    <!-- BOOKING BLOCK -->
-    <div class="card">
-        <h2>Book Your Ride</h2>
-
-        <label>Pickup Location</label>
-        <input id="pickup" placeholder="Ex: Cuddalore">
-
-        <label>Drop Location / Temple</label>
-        <input id="drop" placeholder="Ex: Tiruvannamalai Temple">
-
-        <label>Vehicle Type</label>
-        <select id="vehicle">
-            <option value="sedan">Sedan</option>
-            <option value="suv">SUV</option>
-        </select>
-
-        <label>Total Distance (KM)</label>
-        <input id="distance" readonly placeholder="Auto Calculated" style="background:#eee;font-weight:600">
-
-        <label>Estimated Fare</label>
-        <input id="fare" readonly placeholder="Auto Calculated" style="background:#eee;font-weight:600">
-
-        <button class="btn-whatsapp" onclick="calcFare()">Calculate Distance & Fare</button>
-        <button class="btn-whatsapp" onclick="bookWhatsApp()">Book Ride (WhatsApp)</button>
-        <button class="btn-call" onclick="callDriver()">Call Driver</button>
-        <button class="btn-upi" onclick="payUPI()">Pay via UPI</button>
+    <div class="tabs">
+        <label><input type="radio" name="trip" value="oneway" checked> One Way</label>
+        <label><input type="radio" name="trip" value="round"> Round Trip</label>
     </div>
 
-    <h2>Popular Temple Routes</h2>
-    <div class="grid-special">
-        <div><img src="assets/temples/rameswaram.jpg">Rameswaram</div>
-        <div><img src="assets/temples/tiruvannamalai.jpg">Tiruvannamalai</div>
-        <div><img src="assets/temples/thanjavur.jpg">Brihadeeswarar</div>
-        <div><img src="assets/temples/srirangam.jpg">Srirangam</div>
-        <div><img src="assets/temples/madurai.jpg">Madurai</div>
-    </div>
+    <label>Pick Up Location</label>
+    <input id="pickup" placeholder="Ex: Cuddalore">
 
+    <label>Drop Off Location / Temple</label>
+    <input id="drop" placeholder="Ex: Tiruvannamalai Temple">
+
+    <label>Pick Up Date</label>
+    <input type="date" id="date">
+
+    <label>Vehicle Type</label>
+    <select id="vehicle">
+        <option value="sedan">Sedan (₹14/KM)</option>
+        <option value="suv">SUV (₹19/KM)</option>
+    </select>
+
+    <label>Total KM</label>
+    <input id="distance" readonly style="background:#eee">
+
+    <label>Estimated Fare</label>
+    <input id="fare" readonly style="background:#eee">
+
+    <button class="btn btn-submit" onclick="calculateFare()">BOOK TAXI ➜</button>
+    <button class="btn btn-submit" style="background:#25D366;" onclick="bookWhatsApp()">WhatsApp Booking</button>
+    <button class="btn btn-call" onclick="callDriver()">Call Driver</button>
 </div>
 
 <script>
-/*===========================
-   1. FREE GEO LOCATION API
-===========================*/
+// Convert address to GPS
 async function geo(address){
-    let url=`https://nominatim.openstreetmap.org/search?format=json&q=${address}`;
+    let url = `https://nominatim.openstreetmap.org/search?format=json&q=${address}`;
     let res = await fetch(url);
     let data = await res.json();
     return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
 }
 
-/*===========================
-  2. Haversine Distance Formula
-===========================*/
-function haversine(lat1, lon1, lat2, lon2){
-    const R = 6371; // Earth radius
-    let dLat = (lat2-lat1)*Math.PI/180;
-    let dLon = (lon2-lon1)*Math.PI/180;
-    let a =
-        Math.sin(dLat/2)**2 +
-        Math.cos(lat1*Math.PI/180) *
-        Math.cos(lat2*Math.PI/180) *
+// Distance Formula
+function hav(lat1,lon1,lat2,lon2){
+    const R=6371;
+    let dLat=(lat2-lat1)*Math.PI/180;
+    let dLon=(lon2-lon1)*Math.PI/180;
+    let a=
+        Math.sin(dLat/2)**2+
+        Math.cos(lat1*Math.PI/180)*
+        Math.cos(lat2*Math.PI/180)*
         Math.sin(dLon/2)**2;
     return R*(2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a)));
 }
 
-/*===========================
-  3. AUTO DISTANCE + FARE
-===========================*/
-async function calcFare(){
+async function calculateFare(){
     let p = pickup.value;
     let d = drop.value;
 
     if(!p || !d){
-        alert("Enter pickup and drop location");
+        alert("Enter pickup & drop");
         return;
     }
 
     let start = await geo(p);
-    let end = await geo(d);
+    let end   = await geo(d);
 
-    // Straight line distance
-    let km = haversine(start[0], start[1], end[0], end[1]);
-
-    // Road variation factor 30% (Tamil Nadu reality)
-    km = km * 1.35;
-
-    distance.value = km.toFixed(1);
+    let km = hav(start[0],start[1],end[0],end[1]) * 1.35;
 
     let type = vehicle.value;
-    let rate = type==="sedan" ? 14 : 19;
+    let rate = (type==="sedan") ? 14 : 19;
     let bata = 300;
 
-    let total = km*rate + bata;
+    let total = km * rate + bata;
+
+    distance.value = km.toFixed(1);
     fare.value = "₹ " + Math.round(total);
 }
 
-/*===========================
-   BOOKING
-===========================*/
+// WhatsApp
 function bookWhatsApp(){
     let msg =
 `*Raindrop Taxi Booking*
@@ -233,18 +216,14 @@ Fare: ${fare.value}`;
     window.open(`https://wa.me/919486576643?text=${encodeURIComponent(msg)}`);
 }
 
-/*===========================
-  CALL DRIVER
-===========================*/
+// Call
 function callDriver(){
-    window.location.href="tel:+919486576643";
+    window.location.href = "tel:+919486576643";
 }
 
-/*===========================
-   UPI PAYMENT
-===========================*/
-function payUPI(){
-    window.location.href=`upi://pay?pa=prasanthvjm890-1@okhdfcbank&pn=RaindropTaxi&cu=INR`;
+// Scroll
+function scrollToBooking(){
+    document.getElementById("bookRide").scrollIntoView({behavior:"smooth"});
 }
 </script>
 
