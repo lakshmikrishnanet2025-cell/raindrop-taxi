@@ -2,19 +2,20 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Raindrop Taxi – Temple Tours</title>
+<title>Raindrop Taxi – Tamil Nadu Temple Tours</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
+/* ===== GLOBAL ===== */
 body {
     margin: 0;
     font-family: Inter, sans-serif;
-    background: #fafafa;
+    background: #f8f8f8;
 }
 
-/* HEADER TEMPLE GRID */
+/* ===== HEADER TEMPLE GRID ===== */
 .header-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -27,59 +28,80 @@ body {
     object-fit: cover;
 }
 
-/* MAIN CONTENT */
 .container {
     max-width: 900px;
     margin: auto;
     padding: 20px;
 }
 
-h1,h2,h3 {
+h1, h2 {
     font-weight: 700;
+    text-align: center;
 }
 
-/* BOOKING CARD */
+.logo {
+    width: 120px;
+    display: block;
+    margin: 10px auto 0 auto;
+}
+
+/* ===== BOOKING CARD ===== */
 .card {
     background: #fff;
+    padding: 22px;
     border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-top: 20px;
 }
 
-input, select, button {
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+input, select {
     width: 100%;
     padding: 12px;
+    margin-top: 6px;
     border-radius: 10px;
-    margin-top: 10px;
     border: 1px solid #ccc;
     font-size: 15px;
 }
 
-/* ACTION BUTTONS */
+/* ===== BUTTONS ===== */
 button {
+    width: 100%;
+    padding: 14px;
     border: none;
+    border-radius: 10px;
+    margin-top: 12px;
     cursor: pointer;
+    font-size: 15px;
     font-weight: 600;
 }
-.btn-primary{
-    background: #000;
-    color: #fff;
-}
-.btn-whatsapp{
-    background: #30d34b;
+
+.btn-whatsapp {
+    background: #25D366;
     color: white;
 }
-.btn-upi{
+
+.btn-upi {
     background: #6f00ff;
     color: white;
 }
 
-/* SPECIAL DESTINATIONS */
+.btn-call {
+    background: #ff4d4d;
+    color: white;
+}
+
+/* ===== TEMPLE GRID ===== */
 .grid-special {
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(130px,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(130px,1fr));
     gap: 10px;
+    margin-top: 20px;
 }
 
 .grid-special div {
@@ -87,6 +109,7 @@ button {
     border-radius: 10px;
     overflow: hidden;
     text-align: center;
+    padding-bottom: 8px;
     font-size: 14px;
 }
 
@@ -95,32 +118,25 @@ button {
     height: 100px;
     object-fit: cover;
 }
-
-.logo {
-    width: 120px;
-    display: block;
-    margin: auto;
-}
 </style>
 </head>
-
 <body>
 
-<!-- TEMPLE GRID HEADER -->
+<!-- ===== HEADER ===== -->
 <div class="header-grid">
     <img src="assets/temples/madurai.jpg">
-    <img src="assets/temples/thanjavur.jpg">
     <img src="assets/temples/rameswaram.jpg">
+    <img src="assets/temples/thanjavur.jpg">
 </div>
 
-<!-- MAIN -->
+<!-- ===== APP ===== -->
 <div class="container">
-    
-    <img src="assets/logo.png" class="logo">
-    <h1 style="text-align:center;">Raindrop Taxi</h1>
-    <p style="text-align:center;">Tamil Nadu Temple & Tourism Cab Service</p>
 
-    <!-- BOOKING FORM -->
+    <img class="logo" src="assets/logo.png">
+    <h1>Raindrop Taxi</h1>
+    <p style="text-align:center;">Tamil Nadu Temple | Tourism | Local & Outstation</p>
+
+    <!-- BOOKING -->
     <div class="card">
         <h2>Book Your Ride</h2>
 
@@ -133,18 +149,20 @@ button {
         <label>Date & Time</label>
         <input type="datetime-local" id="datetime">
 
-        <label>Vehicle</label>
+        <label>Vehicle Type</label>
         <select id="vehicle">
             <option>Sedan</option>
             <option>SUV</option>
             <option>Mini</option>
         </select>
 
-        <button class="btn-primary" onclick="bookWhatsApp()">Book Ride</button>
+        <button class="btn-whatsapp" onclick="bookWhatsApp()">Book on WhatsApp</button>
+        <button class="btn-call" onclick="callDriver()">Call Driver</button>
         <button class="btn-upi" onclick="payUPI()">Pay via UPI</button>
     </div>
 
-    <!-- SPECIAL LOCATIONS -->
+
+    <!-- ===== SPECIAL DESTINATIONS ===== -->
     <h2>Popular Temple Routes</h2>
     <div class="grid-special">
         <div>
@@ -168,22 +186,28 @@ button {
             Madurai
         </div>
     </div>
+
 </div>
 
 <script>
-/* WHATSAPP BOOKING */
+/* ===== WHATSAPP BOOKING ===== */
 function bookWhatsApp(){
-    let msg = 
+    let msg =
 `*Raindrop Taxi Booking*
 Pickup: ${pickup.value}
 Drop: ${drop.value}
 Date/Time: ${datetime.value}
 Vehicle: ${vehicle.value}`;
 
-    window.open(`https://wa.me/919486576643?text=${encodeURIComponent(msg)}`);
+    window.open(`https://wa.me/919486576643?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
-/* UPI Payment */
+/* ===== CALL DRIVER ===== */
+function callDriver(){
+    window.location.href = "tel:+919486576643";
+}
+
+/* ===== UPI PAYMENT ===== */
 function payUPI(){
     let upi = "prasanthvjm890-1@okhdfcbank";
     window.location.href = `upi://pay?pa=${upi}&pn=RaindropTaxi&cu=INR`;
