@@ -1,105 +1,25 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Admin — Raindrop Taxi</title>
-  <style>
-    body{font-family:Arial, sans-serif; margin:18px; color:#111}
-    label{display:block;margin-top:10px;font-weight:600}
-    input[type=text], textarea{width:100%;padding:8px;border:1px solid #ddd;border-radius:6px}
-    button{margin-top:12px;padding:8px 12px;border-radius:6px;background:#0b76ef;color:#fff;border:none;cursor:pointer}
-    .row{display:flex;gap:12px}
-    .col{flex:1}
-    .asset-preview{max-width:200px;margin-top:8px}
-  </style>
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-  <h2>Raindrop Taxi — Admin</h2>
-  <p><strong>Security note:</strong> This demo admin uses a simple token header. Set <code>ADMIN_TOKEN</code> in your environment and keep it secret.</p>
-  <div>
-    <label>Admin token (for requests)</label>
-    <input id="token" type="text" placeholder="Paste admin token here (not stored)" />
-  </div>
-  <div id="contentForm">
-    <label>Brand name</label><input id="brand" type="text" />
-    <label>Driver name</label><input id="driver_name" type="text" />
-    <label>Driver phone</label><input id="driver_phone" type="text" />
-    <label>UPI VPA</label><input id="upi" type="text" />
-    <label>Description</label><textarea id="description" rows="3"></textarea>
 
-    <div class="row">
-      <div class="col">
-        <label>Logo (upload)</label><input id="logoFile" type="file" accept="image/*" />
-        <img id="logoPrev" class="asset-preview" src="" alt="" />
-      </div>
-      <div class="col">
-        <label>Car image (upload)</label><input id="carFile" type="file" accept="image/*" />
-        <img id="carPrev" class="asset-preview" src="" alt="" />
-      </div>
-      <div class="col">
-        <label>Driver image (upload)</label><input id="driverFile" type="file" accept="image/*" />
-        <img id="driverPrev" class="asset-preview" src="" alt="" />
-      </div>
-    </div>
+<header>
+    <h2>Raindrop Taxi — Admin</h2>
+</header>
 
-    <div style="margin-top:12px">
-      <button id="save">Save changes</button>
-      <button id="uploadLogo" style="background:#444">Upload selected images</button>
-    </div>
-  </div>
+<div class="admin-grid">
+    <button onclick="showDrivers()">Drivers</button>
+    <button onclick="showRides()">Rides</button>
+    <button onclick="showPayments()">Payments</button>
+</div>
 
-  <pre id="log" style="margin-top:12px;background:#f8f8f8;padding:8px;border-radius:6px;max-height:220px;overflow:auto"></pre>
+<div id="adminDisplay"></div>
 
-  <script>
-    const qs = sel => document.querySelector(sel);
-    let site = null;
-    async function load(){ const r = await fetch('/api/content'); const j = await r.json(); if(j.ok){ site = j.data; populate(); log('Loaded site.json'); } else log('Failed to load content'); }
-    function populate(){ qs('#brand').value = site.brand; qs('#driver_name').value = site.driver_name; qs('#driver_phone').value = site.driver_phone; qs('#upi').value = site.upi; qs('#description').value = site.description; qs('#logoPrev').src = site.logo; qs('#carPrev').src = site.car_image; qs('#driverPrev').src = site.driver_image; }
-    function log(m){ const el = qs('#log'); el.textContent += '\n' + m; el.scrollTop = el.scrollHeight; }
+<script src="admin.js"></script>
 
-    async function saveChanges(){
-      const token = qs('#token').value.trim();
-      if(!token){ alert('Provide admin token'); return; }
-      const body = {
-        brand: qs('#brand').value.trim(),
-        driver_name: qs('#driver_name').value.trim(),
-        driver_phone: qs('#driver_phone').value.trim(),
-        upi: qs('#upi').value.trim(),
-        description: qs('#description').value.trim(),
-      };
-      const res = await fetch('/api/update', {method:'POST', headers:{'Content-Type':'application/json','x-admin-token': token}, body: JSON.stringify(body)});
-      const j = await res.json();
-      if(j.ok){ site = j.data; populate(); log('Saved changes'); } else log('Error: ' + JSON.stringify(j));
-    }
-
-    async function uploadImage(inputEl, which){
-      const token = qs('#token').value.trim();
-      if(!token){ alert('prasanthraindrop@2002'); return; }
-      const file = inputEl.files[0]; if(!file) return alert('No file selected');
-      const fd = new FormData(); fd.append('image', file);
-      const res = await fetch('/api/upload', {method:'POST', headers:{'x-admin-token': token}, body: fd});
-      const j = await res.json();
-      if(j.ok){ log('Uploaded ' + which + ': ' + j.path); // update site immediately
-        const body = {}; body[which] = j.path;
-        const res2 = await fetch('/api/update', {method:'POST', headers:{'Content-Type':'application/json','x-admin-token': token}, body: JSON.stringify(body)});
-        const j2 = await res2.json();
-        if(j2.ok){ site = j2.data; populate(); log('Updated site.json with new asset'); } else log('Failed to update site.json: ' + JSON.stringify(j2));
-      } else log('Upload failed: ' + JSON.stringify(j));
-    }
-
-    qs('#save').addEventListener('click', saveChanges);
-    qs('#uploadLogo').addEventListener('click', ()=>{
-      if(qs('#logoFile').files[0]) uploadImage(qs('#logoFile'),'logo');
-      if(qs('#carFile').files[0]) uploadImage(qs('#carFile'),'car_image');
-      if(qs('#driverFile').files[0]) uploadImage(qs('#driverFile'),'driver_image');
-    });
-
-    qs('#logoFile').addEventListener('change', e=>{ qs('#logoPrev').src = URL.createObjectURL(e.target.files[0]); });
-    qs('#carFile').addEventListener('change', e=>{ qs('#carPrev').src = URL.createObjectURL(e.target.files[0]); });
-    qs('#driverFile').addEventListener('change', e=>{ qs('#driverPrev').src = URL.createObjectURL(e.target.files[0]); });
-
-    load();
-  </script>
 </body>
 </html>
