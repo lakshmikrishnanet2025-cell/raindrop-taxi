@@ -2,52 +2,45 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Raindrop Taxi – Tamil Nadu Temple Tours</title>
+<title>Raindrop Taxi – Temple Tours</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ===== GLOBAL ===== */
 body {
     margin: 0;
     font-family: Inter, sans-serif;
     background: #f8f8f8;
 }
 
-/* ===== HEADER TEMPLE GRID ===== */
+/* HEADER IMAGE GRID */
 .header-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     height: 180px;
 }
-
 .header-grid img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
+/* MAIN LAYOUT */
 .container {
     max-width: 900px;
     margin: auto;
     padding: 20px;
 }
 
-h1, h2 {
-    font-weight: 700;
-    text-align: center;
-}
-
 .logo {
-    width: 120px;
+    width: 130px;
     display: block;
-    margin: 10px auto 0 auto;
+    margin: 15px auto;
 }
 
-/* ===== BOOKING CARD ===== */
 .card {
-    background: #fff;
+    background: white;
     padding: 22px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -55,21 +48,21 @@ h1, h2 {
 }
 
 label {
-    display: block;
-    margin-top: 10px;
     font-weight: 600;
+    margin-top: 12px;
+    display: block;
 }
 
 input, select {
     width: 100%;
     padding: 12px;
-    margin-top: 6px;
     border-radius: 10px;
+    margin-top: 5px;
     border: 1px solid #ccc;
     font-size: 15px;
 }
 
-/* ===== BUTTONS ===== */
+/* BUTTONS */
 button {
     width: 100%;
     padding: 14px;
@@ -85,34 +78,28 @@ button {
     background: #25D366;
     color: white;
 }
-
+.btn-call {
+    background: #ff4d4d;
+    color: white;
+}
 .btn-upi {
     background: #6f00ff;
     color: white;
 }
 
-.btn-call {
-    background: #ff4d4d;
-    color: white;
-}
-
-/* ===== TEMPLE GRID ===== */
+/* TEMPLE GRID */
 .grid-special {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(130px,1fr));
     gap: 10px;
     margin-top: 20px;
 }
-
 .grid-special div {
     background: white;
-    border-radius: 10px;
-    overflow: hidden;
     text-align: center;
+    border-radius: 10px;
     padding-bottom: 8px;
-    font-size: 14px;
 }
-
 .grid-special img {
     width: 100%;
     height: 100px;
@@ -122,21 +109,20 @@ button {
 </head>
 <body>
 
-<!-- ===== HEADER ===== -->
+<!-- HEADER SLICE -->
 <div class="header-grid">
     <img src="assets/temples/madurai.jpg">
     <img src="assets/temples/rameswaram.jpg">
     <img src="assets/temples/thanjavur.jpg">
 </div>
 
-<!-- ===== APP ===== -->
 <div class="container">
 
-    <img class="logo" src="assets/logo.png">
-    <h1>Raindrop Taxi</h1>
-    <p style="text-align:center;">Tamil Nadu Temple | Tourism | Local & Outstation</p>
+    <img src="assets/logo.png" class="logo">
+    <h1 style="text-align:center;">Raindrop Taxi</h1>
+    <p style="text-align:center;">Tamil Nadu Temple • Tourism • Local & Outstation</p>
 
-    <!-- BOOKING -->
+    <!-- BOOKING BLOCK -->
     <div class="card">
         <h2>Book Your Ride</h2>
 
@@ -146,68 +132,78 @@ button {
         <label>Drop Location / Temple</label>
         <input id="drop" placeholder="Ex: Tiruvannamalai Temple">
 
-        <label>Date & Time</label>
-        <input type="datetime-local" id="datetime">
+        <label>Distance (KM)</label>
+        <input id="distance" type="number" min="1" placeholder="Ex: 100" oninput="calcFare()">
 
         <label>Vehicle Type</label>
-        <select id="vehicle">
-            <option>Sedan</option>
-            <option>SUV</option>
-            <option>Mini</option>
+        <select id="vehicle" onchange="calcFare()">
+            <option value="sedan">Sedan</option>
+            <option value="suv">SUV</option>
         </select>
 
-        <button class="btn-whatsapp" onclick="bookWhatsApp()">Book on WhatsApp</button>
+        <label>Estimated Fare</label>
+        <input id="fare" readonly style="background:#eee;font-weight:600">
+
+        <button class="btn-whatsapp" onclick="bookWhatsApp()">Book Ride (WhatsApp)</button>
         <button class="btn-call" onclick="callDriver()">Call Driver</button>
         <button class="btn-upi" onclick="payUPI()">Pay via UPI</button>
     </div>
 
-
-    <!-- ===== SPECIAL DESTINATIONS ===== -->
     <h2>Popular Temple Routes</h2>
     <div class="grid-special">
-        <div>
-            <img src="assets/temples/rameswaram.jpg">
-            Rameswaram
-        </div>
-        <div>
-            <img src="assets/temples/tiruvannamalai.jpg">
-            Tiruvannamalai
-        </div>
-        <div>
-            <img src="assets/temples/thanjavur.jpg">
-            Brihadeeswarar
-        </div>
-        <div>
-            <img src="assets/temples/srirangam.jpg">
-            Srirangam
-        </div>
-        <div>
-            <img src="assets/temples/madurai.jpg">
-            Madurai
-        </div>
+        <div><img src="assets/temples/rameswaram.jpg">Rameswaram</div>
+        <div><img src="assets/temples/tiruvannamalai.jpg">Tiruvannamalai</div>
+        <div><img src="assets/temples/thanjavur.jpg">Brihadeeswarar</div>
+        <div><img src="assets/temples/srirangam.jpg">Srirangam</div>
+        <div><img src="assets/temples/madurai.jpg">Madurai</div>
     </div>
 
 </div>
 
 <script>
-/* ===== WHATSAPP BOOKING ===== */
+/* ============================
+   Fare Calculator
+==============================*/
+function calcFare(){
+    let km = Number(distance.value);
+    let vehicle = vehicleType = document.getElementById("vehicle").value;
+    if (!km) {
+        fare.value = "";
+        return;
+    }
+
+    let bata = 300;
+    let rate = (vehicle === "sedan") ? 14 : 19;
+
+    let total = (km * rate) + bata;
+    fare.value = "₹ " + total;
+}
+
+/* ==============================
+   WhatsApp Booking
+==============================*/
 function bookWhatsApp(){
     let msg =
 `*Raindrop Taxi Booking*
 Pickup: ${pickup.value}
 Drop: ${drop.value}
-Date/Time: ${datetime.value}
-Vehicle: ${vehicle.value}`;
+Distance: ${distance.value} KM
+Vehicle: ${vehicle.value}
+Estimated Fare: ${fare.value}`;
 
-    window.open(`https://wa.me/919486576643?text=${encodeURIComponent(msg)}`, "_blank");
+    window.open(`https://wa.me/919486576643?text=${encodeURIComponent(msg)}`);
 }
 
-/* ===== CALL DRIVER ===== */
+/* ==============================
+   Call
+==============================*/
 function callDriver(){
     window.location.href = "tel:+919486576643";
 }
 
-/* ===== UPI PAYMENT ===== */
+/* ==============================
+   UPI Payment
+==============================*/
 function payUPI(){
     let upi = "prasanthvjm890-1@okhdfcbank";
     window.location.href = `upi://pay?pa=${upi}&pn=RaindropTaxi&cu=INR`;
