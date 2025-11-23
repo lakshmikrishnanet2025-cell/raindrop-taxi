@@ -1,98 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Raindrop Taxi – Login</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
-<style>
-body {
-    margin: 0;
-    background: #f5f5f5;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Inter, sans-serif;
-}
-
-.card {
-    width: 350px;
-    background: #fff;
-    padding: 25px;
-    border-radius: 16px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-    text-align: center;
-}
-
-.logo {
-    width: 90px;
-    margin-bottom: 15px;
-}
-
-input {
-    width: 100%;
-    padding: 12px;
-    border-radius: 12px;
-    border: 1px solid #ccc;
-    margin-top: 10px;
-    font-size: 16px;
-}
-
-button {
-    width: 100%;
-    padding: 14px;
-    margin-top: 15px;
-    border: none;
-    border-radius: 12px;
-    background: #000;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    font-weight: 600;
-}
-</style>
+<title>Login</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<body class="center">
 
-<div class="card">
+<img src="assets/logo.png" class="logo">
 
-    <img src="assets/logo.png" class="logo">
+<h2>Login</h2>
 
-    <h2>Login</h2>
+<input id="phone" placeholder="Enter 10 digit phone">
 
-    <input id="phone" maxlength="10" placeholder="Enter mobile number">
+<button onclick="sendOTP()">Send OTP</button>
 
-    <button onclick="sendOTP()">Send OTP</button>
-
-</div>
-
-<script>
-function sendOTP() {
-    let phone = document.getElementById("phone").value.trim();
-
-    if (phone.length !== 10) {
-        alert("Enter valid 10 digit mobile number");
-        return;
-    }
-
-    let apiKey = "7633c95c-c6bb-11f0-a6b2-0200cd936042";
-
-    fetch(`https://2factor.in/API/V1/${apiKey}/SMS/${phone}/AUTOGEN`)
-    .then(r => r.json())
-    .then(data => {
-        if (data.Status === "Success") {
-            localStorage.setItem("session_id", data.Details);
-            localStorage.setItem("phone", phone);
-            window.location.href = "verify.html";
-        } else {
-            alert("SMS sending failed. Try again.");
-        }
-    });
-}
-</script>
-
+<script src="otp.js"></script>
 </body>
 </html>
