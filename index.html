@@ -2,104 +2,133 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>Raindrop Taxi – Temple Tours</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Raindrop Taxi</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css"/>
-<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 
 <style>
-body{margin:0;background:#f2f2f2;font-family:Inter,sans-serif;}
-
-header{
-    background:black;color:white;padding:15px;
-    display:flex;align-items:center;justify-content:space-between;
+body {
+    margin: 0;
+    font-family: Inter, sans-serif;
+    background: #fafafa;
 }
 
-header .left{
-    display:flex;align-items:center;gap:15px;
-}
-header img{height:45px;}
-
-.login-btn{
-    background:white;color:black;padding:10px 18px;
-    border-radius:8px;text-decoration:none;font-weight:600;
+/* HEADER TEMPLE GRID */
+.header-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    height: 180px;
 }
 
-.logout-btn{
-    background:red;color:white;padding:10px 18px;
-    border-radius:8px;text-decoration:none;font-weight:600;
+.header-grid img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.container{max-width:1200px;margin:auto;display:flex;gap:20px;padding:25px;}
-
-.card,.side-card{
-    background:white;padding:20px;border-radius:14px;
-    box-shadow:0 4px 14px rgba(0,0,0,0.1);
+/* MAIN CONTENT */
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
 }
 
-.card{flex:1;}
-.side-card{width:380px;}
-
-input,select{
-    width:100%;padding:12px;margin-top:10px;border-radius:10px;
-    border:1px solid #ccc;font-size:16px;
+h1,h2,h3 {
+    font-weight: 700;
 }
 
-button{
-    width:100%;padding:14px;margin-top:15px;border:none;
-    border-radius:10px;background:black;color:white;
-    font-size:16px;font-weight:600;cursor:pointer;
+/* BOOKING CARD */
+.card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
 }
 
-#map{width:100%;height:250px;border-radius:10px;background:#ddd;}
+input, select, button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+/* ACTION BUTTONS */
+button {
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+.btn-primary{
+    background: #000;
+    color: #fff;
+}
+.btn-whatsapp{
+    background: #30d34b;
+    color: white;
+}
+.btn-upi{
+    background: #6f00ff;
+    color: white;
+}
+
+/* SPECIAL DESTINATIONS */
+.grid-special {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(130px,1fr));
+    gap: 10px;
+}
+
+.grid-special div {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    font-size: 14px;
+}
+
+.grid-special img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+}
+
+.logo {
+    width: 120px;
+    display: block;
+    margin: auto;
+}
 </style>
 </head>
+
 <body>
 
-<header>
-    <div class="left">
-        <img src="assets/logo.png">
-        <h1>Raindrop Taxi</h1>
-    </div>
+<!-- TEMPLE GRID HEADER -->
+<div class="header-grid">
+    <img src="assets/temples/madurai.jpg">
+    <img src="assets/temples/thanjavur.jpg">
+    <img src="assets/temples/rameswaram.jpg">
+</div>
 
-    <div id="authButtons"></div>
-</header>
-
-<script>
-// Show Login / Logout button based on session
-if (localStorage.getItem("loggedIn") === "yes") {
-    document.getElementById("authButtons").innerHTML = `
-        <a class="logout-btn" href="#" onclick="logout()">Logout</a>
-    `;
-} else {
-    document.getElementById("authButtons").innerHTML = `
-        <a class="login-btn" href="login.html">Login</a>
-    `;
-}
-
-function logout() {
-    localStorage.removeItem("loggedIn");
-    localStorage.removeItem("session_id");
-    localStorage.removeItem("phone");
-    alert("Logged out.");
-    location.reload();
-}
-</script>
-
+<!-- MAIN -->
 <div class="container">
+    
+    <img src="assets/logo.png" class="logo">
+    <h1 style="text-align:center;">Raindrop Taxi</h1>
+    <p style="text-align:center;">Tamil Nadu Temple & Tourism Cab Service</p>
 
+    <!-- BOOKING FORM -->
     <div class="card">
-        <h2>Book a Ride</h2>
+        <h2>Book Your Ride</h2>
 
-        <label>Pickup location</label>
-        <input id="pickup" placeholder="Enter pickup location">
+        <label>Pickup Location</label>
+        <input id="pickup" placeholder="Ex: Cuddalore">
 
-        <label>Drop location</label>
-        <input id="drop" placeholder="Enter drop location">
+        <label>Drop Location / Temple</label>
+        <input id="drop" placeholder="Ex: Tiruvannamalai Temple">
 
         <label>Date & Time</label>
         <input type="datetime-local" id="datetime">
@@ -111,64 +140,53 @@ function logout() {
             <option>Mini</option>
         </select>
 
-        <button onclick="showRoute()">Show on Map</button>
-        <button onclick="bookWhatsApp()">Book on WhatsApp</button>
-        <button onclick="payUPI()">Pay via UPI</button>
+        <button class="btn-primary" onclick="bookWhatsApp()">Book Ride</button>
+        <button class="btn-upi" onclick="payUPI()">Pay via UPI</button>
     </div>
 
-    <div class="side-card">
-        <h3>Driver</h3>
-        <img src="assets/driver.jpg" style="width:100%;border-radius:10px">
-
-        <h3>Vehicle</h3>
-        <img src="assets/car.jpg" style="width:100%;border-radius:10px">
-
-        <h3>Map</h3>
-        <div id="map"></div>
+    <!-- SPECIAL LOCATIONS -->
+    <h2>Popular Temple Routes</h2>
+    <div class="grid-special">
+        <div>
+            <img src="assets/temples/rameswaram.jpg">
+            Rameswaram
+        </div>
+        <div>
+            <img src="assets/temples/tiruvannamalai.jpg">
+            Tiruvannamalai
+        </div>
+        <div>
+            <img src="assets/temples/thanjavur.jpg">
+            Brihadeeswarar
+        </div>
+        <div>
+            <img src="assets/temples/srirangam.jpg">
+            Srirangam
+        </div>
+        <div>
+            <img src="assets/temples/madurai.jpg">
+            Madurai
+        </div>
     </div>
 </div>
 
 <script>
-let map = L.map('map').setView([11.75,79.76], 10);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-let routeControl;
-
-function showRoute() {
-    let p = pickup.value.trim();
-    let d = drop.value.trim();
-
-    if (!p || !d) { alert("Enter pickup and drop"); return; }
-
-    Promise.all([
-        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(p)}`).then(r=>r.json()),
-        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(d)}`).then(r=>r.json())
-    ]).then(([a,b])=>{
-        if (!a.length || !b.length) { alert("Location not found"); return; }
-
-        let c1=[a[0].lat,a[0].lon], c2=[b[0].lat,b[0].lon];
-
-        if (routeControl) map.removeControl(routeControl);
-
-        routeControl = L.Routing.control({
-            waypoints:[L.latLng(c1), L.latLng(c2)],
-            routeWhileDragging:false
-        }).addTo(map);
-    });
-}
-
-function bookWhatsApp() {
+/* WHATSAPP BOOKING */
+function bookWhatsApp(){
     let msg = 
-`Raindrop Taxi:
+`*Raindrop Taxi Booking*
 Pickup: ${pickup.value}
 Drop: ${drop.value}
-Time: ${datetime.value}
+Date/Time: ${datetime.value}
 Vehicle: ${vehicle.value}`;
 
-    window.open(`https://wa.me/919486576643?text=${encodeURIComponent(msg)}`, "_blank");
+    window.open(`https://wa.me/919486576643?text=${encodeURIComponent(msg)}`);
 }
 
-function payUPI() {
-    window.location.href = "upi://pay?pa=prasanthvjm890-1@okhdfcbank&pn=RaindropTaxi&cu=INR";
+/* UPI Payment */
+function payUPI(){
+    let upi = "prasanthvjm890-1@okhdfcbank";
+    window.location.href = `upi://pay?pa=${upi}&pn=RaindropTaxi&cu=INR`;
 }
 </script>
 
