@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Contact — Raindrop Taxi</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body{margin:0;background:#f5f5f5;font-family:Inter;}
+nav{display:flex;justify-content:space-between;align-items:center;padding:14px 40px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+nav img{height:60px;}
+nav ul{display:flex;gap:25px;list-style:none;}
+nav a{text-decoration:none;color:#222;font-weight:600;}
+nav a:hover{color:#6f00ff;}
+.container{max-width:700px;margin:auto;padding:25px;}
+.card{background:white;padding:22px;border-radius:12px;box-shadow:0 5px 15px rgba(0,0,0,0.1);}
+button{width:100%;padding:14px;margin-top:10px;border:none;font-size:15px;border-radius:10px;font-weight:600;cursor:pointer;}
+.btn-call{background:#ff4d4d;color:white;}
+.btn-wa{background:#25D366;color:white;}
+.btn-upi{background:#6f00ff;color:white;}
+</style>
+</head>
+<body>
+
+<nav>
+    <img src="assets/logo.png">
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="routes.html">Routes</a></li>
+        <li><a style="color:#6f00ff;">Contact</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <div class="card">
+        <h2>Contact Raindrop Taxi</h2>
+        <p><b>Phone:</b> +91 9486576643</p>
+        <p><b>Email:</b> raindroptaxi@gmail.com</p>
+
+        <button class="btn-call" onclick="location.href='tel:+919486576643'">Call Us</button>
+        <button class="btn-wa" onclick="location.href='https://wa.me/919486576643'">Chat on WhatsApp</button>
+        <button class="btn-upi" onclick="location.href='upi://pay?pa=prasanthvjm890-1@okhdfcbank&pn=RaindropTaxi&cu=INR'">
+            Pay via UPI
+        </button>
+    </div>
+</div>
+
+</body>
+</html>
