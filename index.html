@@ -2,231 +2,258 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Raindrop Taxi — Tamil Nadu Temple Taxi Service</title>
+<title>Raindrop Taxi – Temple & Tourism Cab Service</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- SEO Meta -->
-<meta name="description" content="Raindrop Taxi — Tamil Nadu Temple taxi service, Rameswaram tours, Tiruvannamalai, Madurai, Thanjavur cab service. Book a ride easily.">
-<meta name="keywords" content="Taxi,Temple Taxi,Rameswaram,Tiruvannamalai,Madurai Thanjavur Srirangam, Airport Taxi, Tamil Nadu Trip, Tourism Taxi, Call Taxi">
+<!-- SEO -->
+<meta name="description" content="Raindrop Taxi – Tamil Nadu temple tour taxi service. Affordable taxi from Chennai, Cuddalore, Rameswaram, Madurai, Tiruvannamalai, Thanjavur, Kancheepuram.">
+<meta name="keywords" content="Tamil Nadu taxi, temple tour cab, Chennai to Rameswaram taxi, Madurai taxi, Tiruvannamalai cab, airport drop taxi, raindrop taxi">
 <meta name="author" content="Raindrop Taxi">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
 body {
     margin: 0;
     font-family: Inter, sans-serif;
-    background: #f7f7f7;
+    background: #f6f6f6;
 }
 
-/* Header */
+/* ---------------- HEADER ---------------- */
 header {
-    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 35px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    padding: 12px 30px;
     background: white;
-    position: fixed;
-    top:0;
-    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
-header img {
-    height:45px;
-}
+
+header img { height: 52px; }
+
+/* NAV */
 nav a {
-    padding:12px;
-    text-decoration:none;
-    color:#000;
-    font-weight:600;
+    margin-left: 30px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
 }
 nav a:hover {
-    color:#6f00ff;
+    color: #6f00ff;
 }
 
-/* HERO */
-.hero {
-    width:100%;
-    height: 340px;
-    background: url("assets/temples/rameswaram.jpg") center/cover no-repeat;
-    margin-top:80px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+/* MOBILE MENU */
+.menu-btn {
+    display: none;
+    font-size: 24px;
 }
 
-/* Booking card */
+/* BOOKING SECTION */
 .booking-box {
-    width:680px;
-    background:white;
-    padding:24px;
-    border-radius:16px;
-    box-shadow:0 4px 18px rgba(0,0,0,0.1);
+    max-width: 650px;
+    margin: auto;
+    margin-top: 60px;
+    padding: 25px;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
 }
 
 input, select {
-    width:100%;
-    padding:12px;
-    margin-top:8px;
-    border-radius:8px;
-    border:1px solid #ccc;
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin: 6px 0;
+    font-size: 15px;
 }
 
 button {
-    padding:14px;
-    width:100%;
-    margin-top:12px;
-    border:none;
-    border-radius:8px;
-    font-size:15px;
-    cursor:pointer;
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 12px;
+    cursor: pointer;
 }
 
-/* temple grid */
-.section-title {
-    text-align:center;
-    margin-top:40px;
-    font-weight:700;
-    font-size:20px;
+.btn-purple { background: #6f00ff; color: #fff; font-weight: 600; }
+.btn-purple:hover { background: #5800cc; }
+
+/* ---------------- TEMPLE ROUTES ---------------- */
+.routes-section {
+    max-width: 1100px;
+    margin: auto;
+    padding: 40px 10px;
 }
 
-.grid {
-    display:grid;
-    grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
-    gap:14px;
-    padding:25px;
-}
-.grid div {
-    background:white;
-    padding-bottom:8px;
-    border-radius:10px;
-    text-align:center;
-}
-.grid img {
-    height:120px;
-    width:100%;
-    object-fit:cover;
-    border-radius:10px 10px 0 0;
+.routes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+    gap: 15px;
 }
 
-/* Floating Buttons */
-.whatsapp-float {
-    position:fixed;
-    bottom:85px;
-    right:22px;
-    background:#25D366;
-    color:white;
-    height:55px;
-    width:55px;
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:26px;
-    text-decoration:none;
-}
-.call-float {
-    position:fixed;
-    bottom:20px;
-    right:22px;
-    background:#ff0055;
-    color:white;
-    height:55px;
-    width:55px;
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:26px;
-    text-decoration:none;
+.routes-grid div {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    font-weight: 600;
+    padding-bottom: 6px;
+    box-shadow: 0px 3px 10px rgba(0,0,0,0.08);
 }
 
-/* Footer */
+.routes-grid img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+/* FOOTER */
 footer {
-    background:black;
-    padding:14px;
-    margin-top:30px;
-    text-align:center;
-    color:#eee;
-    font-size:14px;
+    text-align: center;
+    padding: 15px;
+    background: #000;
+    color: white;
+    font-size: 14px;
 }
-@media(max-width:720px){
-    .booking-box{width:94%;}
-    nav{display:none;}
+
+/* FLOAT ICONS */
+.float-btn {
+    position: fixed;
+    bottom: 18px;
+    right: 18px;
+    z-index: 1001;
+}
+
+.float-btn a {
+    display:block;
+    width:54px;
+    height:54px;
+    border-radius:50%;
+    margin-top:10px;
+}
+
+.whatsapp {
+    background:#25D366 url('assets/whatsapp.png') center/28px no-repeat;
+}
+.call {
+    background:#d60000 url('assets/call.png') center/28px no-repeat;
+}
+
+/* -------- MOBILE NAVIGATION ---------- */
+@media(max-width:800px){
+    nav { display: none; }
+    .menu-btn { display: block; }
+}
+
+.mobile-nav {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 60%;
+    height: 100%;
+    background: white;
+    box-shadow: -4px 0 10px rgba(0,0,0,0.2);
+    display: none;
+    padding: 30px;
+}
+.mobile-nav a {
+    display:block;
+    text-decoration:none;
+    color:#333;
+    margin:15px 0;
+    font-size:18px;
+    font-weight:600;
 }
 </style>
+
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- ======================= HEADER ======================= -->
 <header>
-    <img src="assets/logo.png" alt="Raindrop Taxi">
+    <img src="assets/logo.png">
     <nav>
-        <a href="index.html">Home</a>
+        <a href="#home">Home</a>
         <a href="services.html">Services</a>
         <a href="routes.html">Routes</a>
         <a href="contact.html">Contact</a>
     </nav>
+
+    <div class="menu-btn" onclick="openMenu()">☰</div>
 </header>
 
-<!-- HERO -->
-<div class="hero">
-    <div class="booking-box">
-        <h2>Book Your Ride</h2>
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+    <a href="#home" onclick="closeMenu()">Home</a>
+    <a href="services.html">Services</a>
+    <a href="routes.html">Routes</a>
+    <a href="contact.html">Contact</a>
+    <a onclick="closeMenu()" style="color:#d60000;margin-top:30px;">Close ✖</a>
+</div>
 
-        <input id="pickup" placeholder="Pickup Location">
-        <input id="drop" placeholder="Drop Location (Temple / City)">
-        <input type="date" id="date">
-        
-        <select id="vehicle">
-            <option>Sedan</option>
-            <option>SUV</option>
-            <option>Mini</option>
-        </select>
+<!-- ======================= BOOKING BOX ======================= -->
+<section id="home">
+<div class="booking-box">
+    <h2 style="margin-bottom:10px;">Book Your Ride</h2>
 
-        <button style="background:#6f00ff;color:white;" onclick="bookRide()">Book Ride</button>
-        <button style="background:#6f00ff;color:white;" onclick="payUPI()">Pay via UPI</button>
+    <input id="pickup" placeholder="Pickup Location">
+    <input id="drop" placeholder="Drop Location / Temple">
+    <input type="datetime-local" id="datetime">
+    <select id="vehicle">
+        <option>Sedan</option>
+        <option>SUV</option>
+        <option>Innova</option>
+    </select>
+
+    <button class="btn-purple" onclick="bookRide()">Book Ride</button>
+    <button class="btn-purple" onclick="payUPI()">Pay via UPI</button>
+</div>
+</section>
+
+<!-- ======================= TEMPLE ROUTES ======================= -->
+<div class="routes-section">
+    <h2 style="text-align:center;">Popular Tamil Nadu Temple Routes</h2>
+
+    <div class="routes-grid">
+        <div><img src="assets/madurai.jpg">Madurai</div>
+        <div><img src="assets/rameswaram.jpg">Rameswaram</div>
+        <div><img src="assets/tiruvannamalai.jpg">Tiruvannamalai</div>
+        <div><img src="assets/thanjavur.jpg">Thanjavur</div>
+        <div><img src="assets/srirangam.jpg">Srirangam</div>
     </div>
 </div>
 
-<!-- POPULAR TEMPLES -->
-<h2 class="section-title">Popular Tamil Nadu Temple Routes</h2>
-<div class="grid">
-    <div><img src="assets/temples/madurai.jpg">Madurai</div>
-    <div><img src="assets/temples/rameswaram.jpg">Rameswaram</div>
-    <div><img src="assets/temples/tiruvannamalai.jpg">Tiruvannamalai</div>
-    <div><img src="assets/temples/thanjavur.jpg">Thanjavur</div>
-    <div><img src="assets/temples/srirangam.jpg">Srirangam</div>
+<!-- ======================= FLOAT BUTTONS ======================= -->
+<div class="float-btn">
+    <a class="whatsapp" href="https://wa.me/919486576643"></a>
+    <a class="call" href="tel:+919486576643"></a>
 </div>
 
-<!-- FLOAT BUTTONS -->
-<a href="https://wa.me/919486576643" class="whatsapp-float">🟢</a>
-<a href="tel:+919486576643" class="call-float">📞</a>
-
+<!-- ======================= FOOTER ======================= -->
 <footer>
-© Raindrop Taxi — Tamil Nadu Tourism Taxi Service
+© 2025 Raindrop Taxi — Tamil Nadu Temple & Tourism Cab Service
 </footer>
 
+<!-- ======================= JS ======================= -->
 <script>
+function openMenu(){ document.getElementById('mobileNav').style.display='block'; }
+function closeMenu(){ document.getElementById('mobileNav').style.display='none'; }
+
 function bookRide(){
-    let p=document.getElementById("pickup").value;
-    let d=document.getElementById("drop").value;
-    let dt=document.getElementById("date").value;
-    let v=document.getElementById("vehicle").value;
-
-    let t = `
-*Raindrop Taxi Booking*
-Pickup: ${p}
-Drop: ${d}
-Date: ${dt}
-Vehicle: ${v}
-`;
-
-    window.open(
-        `https://wa.me/919486576643?text=${encodeURIComponent(t)}`
-    );
+    let msg = `*New Booking from Raindrop Taxi*%0A
+Pickup: ${pickup.value}%0A
+Drop: ${drop.value}%0A
+Time: ${datetime.value}%0A
+Vehicle: ${vehicle.value}`;
+    window.open(`https://wa.me/919486576643?text=${msg}`);
 }
+
 function payUPI(){
     window.location.href="upi://pay?pa=prasanthvjm890-1@okhdfcbank&pn=RaindropTaxi&cu=INR";
 }
