@@ -2,234 +2,242 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Raindrop Taxi – Book Ride</title>
+<title>Raindrop Taxi – Temple Tours</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ROOT COLORS */
-:root {
-    --purple: #7a00ff;
-    --purple-dark: #5c00d6;
-    --card: #fff;
-    --text: #111;
-    --bg: #f2f2f2;
-}
-
 body {
     margin: 0;
     font-family: Inter, sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    background: #f8f8f8;
 }
 
-/* HEADER --------------------- */
+/*--------------------------------------
+ HEADER
+--------------------------------------*/
 header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 14px 28px;
-    background: white;
-    border-bottom: 1px solid #ddd;
+    align-items: center;
+    padding: 14px 35px;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
 }
-header img {
-    width: 140px;
+
+.logo {
+    height: 65px;
 }
+
 nav a {
+    margin-left: 24px;
     text-decoration: none;
-    margin-left: 22px;
-    color: #444;
+    color: #333;
+    font-size: 15px;
     font-weight: 600;
 }
-nav a:hover {
-    color: var(--purple);
-}
+nav a:hover { color: purple; }
 
-/* HERO ----------------------- */
+/*--------------------------------------
+ HERO IMAGE
+--------------------------------------*/
 .hero {
-    height: 360px;
-    background: url("assets/temples/rameswaram.jpg") center/cover no-repeat;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    width: 100%;
+    height: 340px;
+    background-size: cover;
+    background-position: center;
 }
 
-/* BOOKING CARD ---------------------- */
+/*--------------------------------------
+ BOOKING CARD
+--------------------------------------*/
 .booking-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-.booking-card {
-    width: 100%;
-    max-width: 520px;
-    background: var(--card);
-    padding: 22px 22px;
-    border-radius: 12px;
-    box-shadow: 0 6px 25px rgba(0,0,0,0.15);
-    transform: translateY(40px);
+    max-width: 860px;
+    margin: auto;
+    margin-top: -80px;
+    padding: 0 18px;
 }
 
-/* Booking inputs ------------------- */
-label {
-    display: block;
-    font-weight: 600;
-    margin: 10px 0 4px;
+.booking-card {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
 }
+
+/* booking type switch */
+.type-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.type-buttons button {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    background: #eee;
+}
+
+.type-buttons button.active {
+    background: purple;
+    color: white;
+}
+
+label {
+    margin-top: 10px;
+    display: block;
+}
+
 input, select {
     width: 100%;
     padding: 12px;
     border-radius: 10px;
+    margin-top: 5px;
     border: 1px solid #ccc;
     font-size: 15px;
-    background: white;
 }
 
-.booking-buttons button {
+/* Buttons */
+.btn {
     width: 100%;
     padding: 14px;
-    margin-top: 14px;
-    border: none;
+    font-size: 15px;
     border-radius: 10px;
-    font-size: 16px;
+    margin-top: 12px;
+    border: none;
+    cursor: pointer;
     font-weight: 600;
 }
-.btn-primary {
-    background: var(--purple);
-    color: #fff;
-}
-.btn-primary:hover {
-    background: var(--purple-dark);
+
+.btn-purple { background: purple; color: #fff; }
+
+/*--------------------------------------
+ TEMPLE GRID
+--------------------------------------*/
+h2 {
+    margin-top: 40px;
+    text-align:center;
 }
 
-/* TRIP BUTTONS */
-.trip-tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 14px;
-}
-.trip-btn {
-    padding: 10px 16px;
-    border: 1px solid #bbb;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 14px;
-}
-.trip-btn.active {
-    background: var(--purple);
-    color: white;
-    border-color: var(--purple-dark);
-}
-
-/* TEMPLE GRID ---------------------- */
-.section {
-    max-width: 1080px;
-    margin: 70px auto 30px;
-    padding: 0 20px;
-}
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(170px,1fr));
+    gap: 18px;
+    padding: 20px;
+    max-width: 1000px;
+    margin: auto;
 }
+
 .grid div {
     background: white;
     border-radius: 10px;
-    text-align: center;
-    padding-bottom: 8px;
+    text-align:center;
+    font-weight: 600;
 }
+
 .grid img {
     width: 100%;
-    height: 125px;
+    height: 130px;
+    border-radius: 10px 10px 0 0;
     object-fit: cover;
 }
 
-/* FOOTER */
+/*--------------------------------------
+ FOOTER
+--------------------------------------*/
 footer {
-    background: black;
-    color: #eee;
-    padding: 20px;
-    text-align: center;
-    margin-top: 40px;
-    font-size: 14px;
+    background: #111;
+    color: #fff;
+    text-align:center;
+    padding: 15px;
+    font-size: 13px;
 }
 
-/* MOBILE RESPONSIVE FIX */
-@media (max-width: 650px) {
-    .booking-card {
-        max-width: 90%;
-        padding: 16px;
+/*--------------------------------------
+ MOBILE FIX
+--------------------------------------*/
+@media(max-width:768px){
+    header {
+        flex-direction: column;
+        gap: 10px;
+        padding-bottom: 18px;
     }
-    nav {
-        display: none;
+    nav a {
+        margin: 0 10px;
     }
+    .hero { height: 260px; }
+    .booking-wrapper { margin-top: -60px; }
 }
 </style>
 
 </head>
-
 <body>
 
-<!-- HEADER -->
 <header>
-    <img src="assets/logo.png" alt="Raindrop Taxi Logo">
+    <img src="assets/logo.png" class="logo">
     <nav>
-        <a>Home</a>
-        <a>Services</a>
-        <a>Routes</a>
-        <a>Contact</a>
+        <a href="#">Home</a>
+        <a href="#">Services</a>
+        <a href="#">Routes</a>
+        <a href="#">Contact</a>
     </nav>
 </header>
 
-<!-- HERO SECTION -->
-<div class="hero">
-    <div class="booking-wrapper">
-        <div class="booking-card">
+<!-- HERO IMAGE -->
+<div class="hero" style="background-image:url('assets/temples/rameswaram.jpg');"></div>
 
-            <h2>Book Your Ride</h2>
 
-            <div class="trip-tabs">
-                <span class="trip-btn active" id="tab1" onclick="setTrip('oneway')">One Way</span>
-                <span class="trip-btn" id="tab2" onclick="setTrip('round')">Round Trip</span>
-            </div>
+<!-- BOOKING FORM -->
+<div class="booking-wrapper">
+    <div class="booking-card">
 
-            <label>Pickup Location</label>
-            <input id="pickup" placeholder="Ex: Chennai Airport">
+        <h2>Book Your Ride</h2>
 
-            <label>Drop Location</label>
-            <input id="drop" placeholder="Ex: Tiruvannamalai Temple">
-
-            <label>Distance (KM)</label>
-            <input type="number" id="km" min="1" oninput="calcFare()" placeholder="Enter KM">
-
-            <label>Vehicle Type</label>
-            <select id="vehicle" onchange="calcFare()">
-                <option value="sedan">Sedan</option>
-                <option value="suv">SUV</option>
-            </select>
-
-            <label>Estimated Fare (₹)</label>
-            <input id="fare" readonly style="background:#f1f1f1; font-weight:600">
-
-            <div class="booking-buttons">
-                <button class="btn-primary" onclick="bookRide()">Book Ride</button>
-                <button class="btn-primary" onclick="payUPI()">Pay via UPI</button>
-            </div>
-
+        <div class="type-buttons">
+            <button id="btnOneWay" class="active" onclick="setTrip('oneway')">One Way</button>
+            <button id="btnRound" onclick="setTrip('round')">Round Trip</button>
         </div>
+
+        <label>Pickup Location</label>
+        <input id="pickup" placeholder="Ex: Chennai Airport">
+
+        <label>Drop Location / Temple</label>
+        <input id="drop" placeholder="Ex: Tiruvannamalai Temple">
+
+        <label>Distance (KM)</label>
+        <input id="distance" type="number" placeholder="Enter KM" oninput="calcFare()">
+
+        <label>Vehicle Type</label>
+        <select id="vehicle" onchange="calcFare()">
+            <option value="sedan">Sedan</option>
+            <option value="suv">SUV</option>
+        </select>
+
+        <label>Estimated Fare (₹)</label>
+        <input id="fare" readonly style="background:#eee;font-weight:600">
+
+        <button class="btn btn-purple" onclick="bookWhatsApp()">Book Ride</button>
+        <button class="btn btn-purple" onclick="payUPI()">Pay via UPI</button>
     </div>
 </div>
 
-<!-- TEMPLE LIST -->
-<div class="section">
-    <h2>Popular Tamil Nadu Temple Routes</h2>
-    <div class="grid">
-        <div><img src="assets/temples/madurai.jpg">Madurai</div>
-        <div><img src="assets/temples/rameswaram.jpg">Rameswaram</div>
-        <div><img src="assets/temples/tiruvannamalai.jpg">Tiruvannamalai</div>
-        <div><img src="assets/temples/thanjavur.jpg">Thanjavur</div>
-        <div><img src="assets/temples/srirangam.jpg">Srirangam</div>
-    </div>
+
+<!-- TEMPLE ROUTES -->
+<h2>Popular Tamil Nadu Temple Routes</h2>
+<div class="grid">
+    <div><img src="assets/temples/madurai.jpg">Madurai</div>
+    <div><img src="assets/temples/rameswaram.jpg">Rameswaram</div>
+    <div><img src="assets/temples/tiruvannamalai.jpg">Tiruvannamalai</div>
+    <div><img src="assets/temples/srirangam.jpg">Srirangam</div>
+    <div><img src="assets/temples/thanjavur.jpg">Thanjavur</div>
 </div>
 
 <footer>
@@ -237,50 +245,56 @@ footer {
 </footer>
 
 <script>
-let trip="oneway";
+let tripType = "oneway";
 
-/* TRIP SWITCH */
 function setTrip(type){
-    trip=type;
-    tab1.classList.remove("active");
-    tab2.classList.remove("active");
-    if(type==="oneway") tab1.classList.add("active");
-    if(type==="round") tab2.classList.add("active");
+    tripType = type;
+    btnOneWay.classList.remove("active");
+    btnRound.classList.remove("active");
+
+    if(type === "oneway") btnOneWay.classList.add("active");
+    else btnRound.classList.add("active");
+
     calcFare();
 }
 
-/* FARE CALCULATOR */
+/* Fare Calculator */
 function calcFare(){
-    let km = Number(km_input.value);
-    let vehicle = vehicle_input.value;
-    if(!km) return fare.value="";
+    let km = Number(distance.value);
+    if(!km){ fare.value=""; return; }
 
-    let bata=300;
-    if(trip==="oneway"){
-        fare.value = km * (vehicle==="sedan" ? 14 : 19) + bata;
-    } else {
-        fare.value = km * 2 * 13 + bata;
+    let vehicle = document.getElementById("vehicle").value;
+    let bata = 300;
+
+    // One way
+    let rate = (vehicle === "sedan") ? 14 : 19;
+
+    // Round trip = Rs.13 per km
+    if(tripType === "round"){
+        rate = 13;
     }
-}
-const km_input=document.getElementById("km");
-const vehicle_input=document.getElementById("vehicle");
 
-/* BOOKING WHATSAPP */
-function bookRide(){
+    let total = km * rate + bata;
+    fare.value = total;
+}
+
+/* WhatsApp Booking */
+function bookWhatsApp(){
     let msg =
-`*Raindrop Taxi Booking*
+`🛺 *Raindrop Taxi Booking*
 Pickup: ${pickup.value}
 Drop: ${drop.value}
-Trip: ${trip}
-Distance: ${km.value}
+Distance: ${distance.value} KM
 Vehicle: ${vehicle.value}
+Trip: ${tripType}
 Fare: ₹${fare.value}`;
+
     window.open(`https://wa.me/919486576643?text=${encodeURIComponent(msg)}`);
 }
 
-/* PAY UPI */
+/* UPI Payment */
 function payUPI(){
-    window.location.href=`upi://pay?pa=prasanthvjm890-1@okhdfcbank&pn=RaindropTaxi&cu=INR`;
+    window.location.href = `upi://pay?pa=prasanthvjm890-1@okhdfcbank&pn=RaindropTaxi&cu=INR`;
 }
 </script>
 
